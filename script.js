@@ -25,7 +25,8 @@ function operate(operator, number1 , number2) {
         case 'x':
             multiply(number1, number2);
             break;
-        case '÷':
+        // case '÷':
+        case '/':
             divide(number1, number2);
             break;
         default:
@@ -79,3 +80,11 @@ clearButton.addEventListener('click', () => {
     display.pop();
     updateCalculatorDisplay();
 })
+
+const operationButtons = document.querySelectorAll('.operator');
+operationButtons.forEach(operationButton => {
+    operationButton.addEventListener('click', () => {
+        display.push(operationButton.id);
+        updateCalculatorDisplay();
+    });
+});
