@@ -1,0 +1,41 @@
+.calcContainer {
+    border: solid pink;
+}
+
+.btnContainer {
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: end;
+    border: thin solid red;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.display {
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    width: 250px;
+    height: 100px;
+    border: thin solid blue;
+    margin: 10px auto 10px auto;
+}
+
+.displayOutput {
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
+    flex: 0 0 auto;
+    border: thin solid black;
+    background-color: azure;
+    width: 60px;
+    height: 50px;
+    margin: 5px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: bottom;
+}
