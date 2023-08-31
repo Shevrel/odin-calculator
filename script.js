@@ -34,9 +34,22 @@ function operate(operator, number1 , number2) {
     };
 }
 
+function updateCalculatorDisplay() {
+    //Takes the displayArray and writes to DOM (.displayOutput) with .join("")
+    const displayOutput = document.querySelector('.displayOutput')
+    displayOutput.textContent = display.join("");
+}
+
+function clearDisplay() {
+    //Deletes the entries of displayArray and calls the updateDisplay function to display nothing on the calculator
+    display.splice(0,display.length);
+    updateCalculatorDisplay()
+}
+
 let number1;
 let operator;
 let number2;
+const display = [];
 
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
@@ -47,3 +60,22 @@ buttons.forEach(button => {
         button.style.background = 'azure';
     });
 });
+
+const numButtons = document.querySelectorAll('.num');
+numButtons.forEach(numButton => {
+    numButton.addEventListener('click', () => {
+        display.push(numButton.id);
+        updateCalculatorDisplay();
+    });
+});
+
+const allClearButton = document.querySelector('.allClear');
+allClearButton.addEventListener('click', () => {
+    clearDisplay();
+})
+
+const clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', () => {
+    display.pop();
+    updateCalculatorDisplay();
+})
