@@ -36,15 +36,15 @@ function operate(operator, number1 , number2) {
 }
 
 function updateCalculatorDisplay() {
-    //Takes the displayArray and writes to DOM (.displayOutput) with .join("")
+    /*Takes the displayArray and writes to DOM (.displayOutput) with .join("")
+    */
     const displayOutput = document.querySelector('.displayOutput')
     displayOutput.textContent = display.join("");
 }
 
-function clearDisplay() {
+function clearDisplayVariable() {
     //Deletes the entries of displayArray and calls the updateDisplay function to display nothing on the calculator
     display.splice(0,display.length);
-    updateCalculatorDisplay()
 }
 
 let number1;
@@ -72,14 +72,15 @@ numButtons.forEach(numButton => {
 
 const allClearButton = document.querySelector('.allClear');
 allClearButton.addEventListener('click', () => {
-    clearDisplay();
-})
+    clearDisplayVariable();
+    updateCalculatorDisplay()
+});
 
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', () => {
     display.pop();
     updateCalculatorDisplay();
-})
+});
 
 const operationButtons = document.querySelectorAll('.operator');
 operationButtons.forEach(operationButton => {
@@ -87,4 +88,9 @@ operationButtons.forEach(operationButton => {
         display.push(operationButton.id);
         updateCalculatorDisplay();
     });
+});
+
+const evaluateButton = document.querySelector('.evaluate');
+evaluateButton.addEventListener('click', () => {
+    operate();
 });
