@@ -17,20 +17,15 @@ function divide(number1, number2) {
 function operate(operator, number1 , number2) {
     switch(operator) {
         case '+':
-            add(number1, number2);
-            break;
+            return add(number1, number2);
         case '-':
-            substract(number1, number2);
-            break;
+            return substract(number1, number2);
         case 'x':
-            multiply(number1, number2);
-            break;
+            return multiply(number1, number2);
         // case '÷':
         case '/':
-            divide(number1, number2);
-            break;
+            return divide(number1, number2);
         default:
-            alert("no");
             break;
     };
 }
@@ -38,8 +33,8 @@ function operate(operator, number1 , number2) {
 function updateCalculatorDisplay() {
     /*Takes the displayArray and writes to DOM (.displayOutput) with .join("")
     */
-    const displayOutput = document.querySelector('.displayOutput')
-    displayOutput.textContent = display.join("");
+    const displayOutput = document.querySelector('.displayOutput');
+    displayOutput.textContent = display;
 }
 
 function clearDisplayVariable() {
@@ -47,10 +42,21 @@ function clearDisplayVariable() {
     display.splice(0,display.length);
 }
 
+function storeNumberInDisplayVariable(number) {
+    return Array.from(String(number, (number) => Number(number)));
+    // display = String(number).split("").map((num) => Number(num));
+}
+
+function updateTempDisplay() {
+    const displayTempOutput = document.querySelector('.displayTempOutput');
+    displayTempOutput.textContent = tempOutput;
+}
+
 let number1;
 let operator;
 let number2;
-const display = [];
+let display = '';
+let tempOutput = '';
 
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
@@ -65,15 +71,19 @@ buttons.forEach(button => {
 const numButtons = document.querySelectorAll('.num');
 numButtons.forEach(numButton => {
     numButton.addEventListener('click', () => {
-        display.push(numButton.id);
+        updateTempDisplay();
+        display += numButton.id
         updateCalculatorDisplay();
     });
 });
 
 const allClearButton = document.querySelector('.allClear');
 allClearButton.addEventListener('click', () => {
+    number1 = 0;
+    number2 = 0;
+    operator = '';
     clearDisplayVariable();
-    updateCalculatorDisplay()
+    updateCalculatorDisplay();
 });
 
 const clearButton = document.querySelector('.clear');
@@ -82,15 +92,38 @@ clearButton.addEventListener('click', () => {
     updateCalculatorDisplay();
 });
 
-const operationButtons = document.querySelectorAll('.operator');
-operationButtons.forEach(operationButton => {
-    operationButton.addEventListener('click', () => {
-        display.push(operationButton.id);
-        updateCalculatorDisplay();
+const operatorButtons = document.querySelectorAll('.operator');
+operatorButtons.forEach(operatorButton => {
+    operatorButton.addEventListener('click', () => {
+        // If an operator is already defined, the result has to be evaluated.
+        if (operator) {
+            number2 = parseInt(display);
+            number1 = operate(operatorButton.id, number1, number2)
+            tempOutput += ' ' + number2 + ' ' + operatorButton.id;
+            updateTempDisplay();
+            display = number1;
+            updateCalculatorDisplay();
+            display = '';
+        }
+        else {
+            number1 = parseInt(display);
+            operator = operatorButton.id;
+            tempOutput = `${number1} ${operator}`;
+            display = '';
+            updateTempDisplay();
+        }
     });
 });
 
 const evaluateButton = document.querySelector('.evaluate');
 evaluateButton.addEventListener('click', () => {
-    operate();
+    number2 = parseInt(display);
+    number1 = operate(operator, number1, number2);
+    display = number1;
+    updateCalculatorDisplay();
+    display = '';
+    tempOutput += ` ${number2} =`
+    updateTempDisplay();
+    tempOutput = '';
+    operator = '';
 });

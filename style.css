@@ -15,17 +15,25 @@
 
 .display {
     display: flex;
+    flex-direction: column;
     justify-content: end;
     align-items: end;
     width: 250px;
-    height: 100px;
+    height: 85px;
     border: thin solid blue;
     margin: 10px auto 10px auto;
 }
 
-.displayOutput {
-    margin: 0;
+.displayTempOutput {
+    margin: 10px;
     padding: 0;
+    font-size: 16px;
+}
+
+.displayOutput {
+    margin: 10px;
+    padding: 0;
+    font-size: 20px;
 }
 
 .btn {
