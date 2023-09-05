@@ -37,9 +37,12 @@ function updateCalculatorDisplay() {
     displayOutput.textContent = display;
 }
 
-function clearDisplayVariable() {
-    //Deletes the entries of displayArray and calls the updateDisplay function to display nothing on the calculator
-    display.splice(0,display.length);
+function clearAndUpdateDisplay() {
+    /*Sets the display to 0 and updates the display, so 0 is displayed.
+    Then returns an empty string*/
+    display = 0;
+    updateCalculatorDisplay()
+    return ''
 }
 
 function storeNumberInDisplayVariable(number) {
@@ -82,8 +85,9 @@ allClearButton.addEventListener('click', () => {
     number1 = 0;
     number2 = 0;
     operator = '';
-    clearDisplayVariable();
-    updateCalculatorDisplay();
+    display = clearAndUpdateDisplay();
+    displayTempOutput = '';
+    updateTempDisplay();
 });
 
 const clearButton = document.querySelector('.clear');
