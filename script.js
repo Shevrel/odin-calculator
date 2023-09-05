@@ -60,6 +60,7 @@ let operator;
 let number2;
 let display = '';
 let tempOutput = '';
+const operatorArray = ['+', '-', 'x', '/']
 
 const buttons = document.querySelectorAll('.btn');
 buttons.forEach(button => {
@@ -86,13 +87,13 @@ allClearButton.addEventListener('click', () => {
     number2 = 0;
     operator = '';
     display = clearAndUpdateDisplay();
-    displayTempOutput = '';
+    tempOutput = '';
     updateTempDisplay();
 });
 
 const clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', () => {
-    display.pop();
+    display = display.slice(0, display.length-1);
     updateCalculatorDisplay();
 });
 
@@ -100,14 +101,26 @@ const operatorButtons = document.querySelectorAll('.operator');
 operatorButtons.forEach(operatorButton => {
     operatorButton.addEventListener('click', () => {
         // If an operator is already defined, the result has to be evaluated.
-        if (operator) {
-            number2 = parseInt(display);
-            number1 = operate(operatorButton.id, number1, number2)
-            tempOutput += ' ' + number2 + ' ' + operatorButton.id;
+        if (operator === '=') {
+            operator = operatorButton.id;
+            tempOutput = `${number1} ${operator}`;
             updateTempDisplay();
-            display = number1;
-            updateCalculatorDisplay();
-            display = '';
+        }
+        else if (operator) {
+            if (display) {
+                number2 = parseInt(display);
+                number1 = operate(operatorButton.id, number1, number2)
+                tempOutput += ' ' + number2 + ' ' + operatorButton.id;
+                updateTempDisplay();
+                display = number1;
+                updateCalculatorDisplay();
+                display = '';
+            }
+            else {
+                operator = operatorButton.id;
+                tempOutput = tempOutput.slice(0, -1) + operator;
+                updateTempDisplay();
+            }access
         }
         else {
             number1 = parseInt(display);
@@ -121,13 +134,19 @@ operatorButtons.forEach(operatorButton => {
 
 const evaluateButton = document.querySelector('.evaluate');
 evaluateButton.addEventListener('click', () => {
+    // let lastChar = tempOutput.charAt(tempOutput.length - 1);
+    // if (operatorArray.includes(lastChar))
+    //     return
     number2 = parseInt(display);
-    number1 = operate(operator, number1, number2);
-    display = number1;
-    updateCalculatorDisplay();
-    display = '';
-    tempOutput += ` ${number2} =`
-    updateTempDisplay();
-    tempOutput = '';
-    operator = '';
+    if (number2) {
+        number1 = operate(operator, number1, number2);
+        display = number1;
+        updateCalculatorDisplay();
+        display = '';
+        tempOutput += ` ${number2} =`;
+        updateTempDisplay();
+        tempOutput = '';
+        operator = '=';
+    }
+    number2 = 0;
 });
